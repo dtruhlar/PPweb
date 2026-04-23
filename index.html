@@ -3,435 +3,354 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projekční činnost ve výstavbě - Pavel Ponocný</title>
+    <title>Pavel Ponocný | Projekce rodinných domů</title>
     <style>
-        /* --- Moderní CSS (2024) pro projekční kancelář --- */
         :root {
-            --font-main: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            --color-primary: #8EC206; /* Barva z vašeho loga */
-            --color-text-dark: #1a1a1a;
-            --color-text-light: #555555;
-            --color-bg-content: #f9f9f9;
-            --color-white: #ffffff;
-            --max-width: 1200px; /* Širší pro moderní náhled */
-            --box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-            --transition: all 0.2s ease-in-out;
+            --color-primary: #8EC206; /* Zelená z loga */
+            --color-dark: #1a1a1a;
+            --color-light: #f4f4f4;
+            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --transition-speed: 0.5s;
         }
 
-        *, *::before, *::after {
+        * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
-            padding: 0;
             font-family: var(--font-main);
-            font-size: 16px;
-            line-height: 1.7;
-            background-color: var(--color-white);
-            color: var(--color-text-dark);
+            background-color: var(--color-dark);
+            color: white;
+            overflow: hidden; /* Zamezení scrollování pro dynamic feeling */
         }
 
-        a {
-            text-decoration: none;
-            color: var(--color-text-dark);
-            transition: var(--transition);
-        }
-
-        a:hover {
-            color: var(--color-primary);
-        }
-
-        h1, h2, h3, h4 {
-            margin: 0 0 1rem 0;
-            font-weight: 700;
-        }
-
-        /* 1. Hlavička */
-        header {
-            width: 100%;
-            background-color: var(--color-white);
-            border-bottom: 1px solid #eeeeee;
-            padding: 15px 0;
-            position: sticky;
+        /* Pozadí celého webu s výkresy */
+        .bg-overlay {
+            position: fixed;
             top: 0;
-            z-index: 1000;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                linear-gradient(rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.95)),
+                url('https://images.unsplash.com/photo-1503387762-592dea58ef23?q=80&w=2000'); /* Obrázek výkresu/architektury */
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
         }
 
-        .header-inner {
+        /* Navigace */
+        header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: var(--max-width);
-            margin: 0 auto;
-            padding: 0 20px;
+            padding: 20px 50px;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
         }
 
-        .logo-block {
+        .logo-container {
             display: flex;
             align-items: center;
             gap: 15px;
         }
 
-        /* Reprodukce loga pomocí CSS pro náhled */
-        .logo-css {
-            width: 50px;
-            height: 40px;
-            background-color: var(--color-primary);
-            clip-path: polygon(0 20%, 100% 0, 100% 80%, 0 100%); /* Lichoběžník */
-            position: relative;
-            border: 2px solid #000;
+        /* Přesná replika loga přes SVG */
+        .logo-svg {
+            width: 60px;
+            height: auto;
         }
 
-        .logo-css::after {
-            content: '';
-            position: absolute;
-            width: 18px;
-            height: 12px;
-            background: #fff;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border: 1px solid #000;
-        }
-
-        .logo-text {
-            font-size: 1.3rem;
-            font-weight: bold;
+        .site-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         nav ul {
             display: flex;
-            gap: 30px;
             list-style: none;
-            margin: 0;
-            padding: 0;
+            gap: 30px;
         }
 
         nav a {
+            color: white;
+            text-decoration: none;
             font-weight: 500;
+            font-size: 0.9rem;
             text-transform: uppercase;
-            font-size: 14px;
-            letter-spacing: 0.5px;
+            transition: color 0.3s;
+            cursor: pointer;
         }
 
-        nav a.active {
+        nav a:hover, nav a.active {
             color: var(--color-primary);
-            border-bottom: 2px solid var(--color-primary);
-            padding-bottom: 5px;
         }
 
-        /* 2. Hero Sekce */
-        .hero {
-            padding: 100px 20px;
-            background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), 
-                        url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2000') no-repeat center center;
-            background-size: cover;
-            border-bottom: 1px solid #eee;
-        }
-
-        .hero-inner {
-            max-width: var(--max-width);
-            margin: 0 auto;
+        /* Dynamické sekce */
+        .page-content {
+            height: 100vh;
+            width: 100%;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            gap: 40px;
+            padding-top: 80px;
         }
 
-        .hero-text {
-            flex: 1;
-            max-width: 600px;
+        section {
+            position: absolute;
+            max-width: 1100px;
+            width: 90%;
+            opacity: 0;
+            transform: translateY(30px);
+            visibility: hidden;
+            transition: all var(--transition-speed) ease-in-out;
         }
 
-        .hero-text h1 {
-            font-size: 3rem;
-            line-height: 1.2;
-            letter-spacing: -1.5px;
-            margin-bottom: 10px;
+        section.active {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
         }
 
-        .hero-text p {
-            font-size: 1.4rem;
-            color: var(--color-text-light);
-            margin: 0;
-        }
+        /* Typografie */
+        h1 { font-size: 3.5rem; margin-bottom: 10px; line-height: 1.1; }
+        h2 { font-size: 2.2rem; color: var(--color-primary); margin-bottom: 30px; border-left: 5px solid var(--color-primary); padding-left: 20px; }
+        p { font-size: 1.1rem; line-height: 1.6; color: #ccc; max-width: 700px; }
 
-        .hero-images {
-            display: flex;
-            gap: 20px;
-            flex: 1;
-        }
-
-        .hero-images img {
-            max-width: calc(50% - 10px);
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        /* 3. Hlavní Obsah */
-        main {
-            padding: 80px 20px;
-            background-color: var(--color-white);
-        }
-
-        .content-inner {
-            max-width: var(--max-width);
-            margin: 0 auto;
-            display: flex;
-            gap: 60px;
-        }
-
-        .services-section {
-            flex: 2;
-        }
-
-        .services-section h2 {
-            font-size: 2.2rem;
-            margin-bottom: 40px;
-        }
-
+        /* Služby - mřížka */
         .services-grid {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
+            margin-top: 30px;
         }
 
-        .service-item {
-            background-color: var(--color-white);
-            padding: 25px;
-            border-radius: 8px;
-            border: 1px solid #eee;
-            display: flex;
-            align-items: flex-start;
-            gap: 20px;
-            transition: var(--transition);
+        .service-card {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 4px;
+            border-left: 3px solid var(--color-primary);
+            transition: background 0.3s;
         }
 
-        .service-item:hover {
-            box-shadow: var(--box-shadow);
-            transform: translateY(-3px);
-            border-color: #ddd;
+        .service-card:hover {
+            background: rgba(255,255,255,0.1);
         }
 
-        .service-icon {
-            font-size: 2rem;
-            color: var(--color-primary);
-            flex-shrink: 0;
-            width: 40px;
+        /* Galerie realizací */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            max-height: 60vh;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-item span {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            padding: 8px;
+            font-size: 0.8rem;
             text-align: center;
         }
 
-        .service-text {
-            color: var(--color-text-light);
-            margin: 0;
-        }
-
-        /* Kontakt sekce */
-        .contact-sidebar {
-            flex: 1;
-        }
-
-        .contact-card {
-            background-color: var(--color-bg-content);
-            padding: 40px;
-            border-radius: 12px;
-            border: 1px solid #eee;
-            box-shadow: var(--box-shadow);
-        }
-
-        .contact-card h2 {
-            font-size: 2rem;
-            margin-bottom: 25px;
-        }
-
-        .contact-info p {
-            margin: 0 0 1rem 0;
-            color: var(--color-text-dark);
-        }
-
-        .contact-card a.link {
-            color: var(--color-primary);
-            font-weight: 500;
-        }
-
-        .contact-card a.link:hover {
-            text-decoration: underline;
-        }
-
-        .map-link-btn {
-            display: inline-block;
-            background-color: var(--color-primary);
-            color: #ffffff;
-            padding: 12px 24px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 14px;
-            margin-top: 20px;
-            transition: var(--transition);
-        }
-
-        .map-link-btn:hover {
-            background-color: #79a605;
-            color: #ffffff;
-            transform: translateY(-2px);
-        }
-
-        .map-url-preview {
-            display: block;
-            margin-top: 10px;
-            font-size: 10px;
-            color: #aaa;
-            word-wrap: break-word;
-        }
-
-        /* 4. Patička */
-        footer {
-            background-color: var(--color-bg-content);
-            padding: 30px 20px;
-            border-top: 1px solid #eee;
-        }
-
-        .footer-inner {
-            max-width: var(--max-width);
-            margin: 0 auto;
+        /* Kontakt */
+        .contact-layout {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 12px;
-            color: #aaa;
+            gap: 50px;
+            background: rgba(0,0,0,0.4);
+            padding: 40px;
+            border-radius: 8px;
         }
 
-        #secret {
-            font-size: 8px;
-            color: #ccc;
+        .contact-info strong { color: var(--color-primary); display: block; margin-bottom: 5px; text-transform: uppercase; font-size: 0.8rem; }
+        .contact-info p { margin-bottom: 20px; }
+
+        .map-btn {
+            display: inline-block;
+            background: var(--color-primary);
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-top: 10px;
         }
 
-        /* Responzivní Design */
-        @media (max-width: 1024px) {
-            .hero-inner { flex-direction: column-reverse; text-align: center; }
-            .hero-text { margin: 0 auto; }
-            .hero-images { justify-content: center; width: 100%; margin-bottom: 30px;}
-            .hero-text h1 { font-size: 2.5rem; }
-            .content-inner { flex-direction: column; }
-            .services-section, .contact-sidebar { width: 100%; }
-        }
-
-        @media (max-width: 600px) {
-            nav ul { gap: 15px; }
-            nav a { font-size: 12px; }
-            .hero-text h1 { font-size: 2rem; }
-            .hero-text p { font-size: 1.1rem; }
-            .header-inner { flex-direction: column; gap: 15px; text-align: center; padding: 10px 0;}
-            .logo-block { justify-content: center; }
+        /* Responzivita */
+        @media (max-width: 900px) {
+            h1 { font-size: 2.2rem; }
+            .services-grid, .gallery-grid, .contact-layout { grid-template-columns: 1fr; display: block; }
+            .contact-layout { display: block; }
+            .gallery-item { margin-bottom: 15px; }
+            header { padding: 15px 20px; }
+            nav ul { display: none; } /* V reálném webu by zde bylo mobilní menu */
         }
     </style>
 </head>
 <body>
 
+    <div class="bg-overlay"></div>
+
     <header>
-        <div class="header-inner">
-            <div class="logo-block">
-                <div class="logo-css" title="Logo Pavla Ponocného"></div>
-                <div class="logo-text">LOGO Pavla Ponocného</div>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#" class="active">ÚVOD</a></li>
-                    <li><a href="#sluzby">SLUŽBY</a></li>
-                    <li><a href="#kontakt">KONTAKT</a></li>
-                </ul>
-            </nav>
+        <div class="logo-container">
+            <svg class="logo-svg" viewBox="0 0 100 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M5 55L20 5H95L80 55H5Z" fill="#8EC206" stroke="black" stroke-width="2"/>
+                <rect x="35" y="20" width="30" height="18" fill="white" stroke="black" stroke-width="1.5"/>
+                <line x1="30" y1="29" x2="70" y2="29" stroke="black" stroke-width="1"/>
+                <line x1="50" y1="15" x2="50" y2="43" stroke="black" stroke-width="1"/>
+            </svg>
+            <div class="site-title">Pavel Ponocný</div>
         </div>
+        <nav>
+            <ul>
+                <li><a onclick="showPage('home')" id="link-home" class="active">Úvod</a></li>
+                <li><a onclick="showPage('services')" id="link-services">Služby</a></li>
+                <li><a onclick="showPage('gallery')" id="link-gallery">Realizace</a></li>
+                <li><a onclick="showPage('contact')" id="link-contact">Kontakt</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <section class="hero">
-        <div class="hero-inner">
-            <div class="hero-text">
-                <h1>Projekční činnost ve výstavbě</h1>
-                <p>Pavel Ponocný</p>
+    <div class="page-content">
+        
+        <section id="home" class="active">
+            <h1>Individuální projekty<br>rodinných domů</h1>
+            <p>Od první studie přes 3D vizualizaci až po prováděcí projekt. Tvořím domovy, které mají technickou preciznost a moderní tvář.</p>
+            <div style="margin-top: 30px;">
+                <svg width="200" height="2" viewBox="0 0 200 2">
+                    <line x1="0" y1="1" x2="200" y2="1" stroke="#8EC206" stroke-width="2" />
+                </svg>
             </div>
-            <div class="hero-images">
-                <img src="https://images.unsplash.com/photo-1503387873461-0730d12e8412?q=80&w=600" alt="Architektonické plány">
-                <img src="https://images.unsplash.com/photo-1581091215367-9b6c00b3035a?q=80&w=600" alt="Stavební náčrt">
+        </section>
+
+        <section id="services">
+            <h2>Nabídka služeb</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <strong>Kompletní projektová dokumentace</strong>
+                    <p style="font-size: 0.9rem;">Od architektonické studie až po prováděcí projekt. Zajištění stanovisek dotčených orgánů a vytýčení stavby.</p>
+                </div>
+                <div class="service-card">
+                    <strong>Pasportizace staveb</strong>
+                    <p style="font-size: 0.9rem;">Přesné zaměření a dokumentace stávajících stavů budov pro rekonstrukce nebo prodej.</p>
+                </div>
+                <div class="service-card">
+                    <strong>Dozorování staveb</strong>
+                    <p style="font-size: 0.9rem;">Autorský a technický dozor investora pro zajištění kvality prováděných prací.</p>
+                </div>
+                <div class="service-card">
+                    <strong>Inženýrská činnost</strong>
+                    <p style="font-size: 0.9rem;">Kompletní zastupování na úřadech a vyřízení stavebního povolení.</p>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <main>
-        <div class="content-inner">
-            
-            <section class="services-section" id="sluzby">
-                <h2>Naše Služby</h2>
-                <div class="services-grid">
-                    
-                    <div class="service-item">
-                        <div class="service-icon">📄</div>
-                        <div class="service-text">
-                            vypracování dokumentace od studie až po prováděcí projekt včetně vyřízení všech stanovisek dotčených orgánů a vytýčení stavby
-                        </div>
-                    </div>
-
-                    <div class="service-item">
-                        <div class="service-icon">🔍</div>
-                        <div class="service-text">
-                            zaměření stávajících stavů budov
-                        </div>
-                    </div>
-
-                    <div class="service-item">
-                        <div class="service-icon">👷</div>
-                        <div class="service-text">
-                            autorský a technický dozor
-                        </div>
-                    </div>
-
-                    <div class="service-item">
-                        <div class="service-icon">⚙️</div>
-                        <div class="service-text">
-                            inženýrská činnost
-                        </div>
-                    </div>
-
+        <section id="gallery">
+            <h2>Realizované zakázky</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600" alt="RD Klatovy">
+                    <span>Moderní RD - Klatovy</span>
                 </div>
-            </section>
-
-            <aside class="contact-sidebar" id="kontakt">
-                <div class="contact-card">
-                    <h2>Kontakt</h2>
-                    <div class="contact-info">
-                        <p>
-                            <strong>Adresa:</strong><br>
-                            Máchova 414, 339 01 Klatovy
-                        </p>
-                        <p>
-                            <strong>Telefon:</strong><br>
-                            <a href="tel:+420605775757" class="link">+420 605 775 757</a>
-                        </p>
-                        <p>
-                            <strong>E-mail:</strong><br>
-                            <a href="mailto:ponocnypavel@seznam.cz" class="link">ponocnypavel@seznam.cz</a>
-                        </p>
-                    </div>
-
-                    <a href="https://mapy.cz/zakladni?q=Máchova+414%2C+Klatovy" target="_blank" class="map-link-btn">Ukázat na Mapy.cz</a>
-                    
-                    <span class="map-url-preview">
-                        preview: https://mapy.cz/zakladni?q=Máchova+414%2C+Klatovy
-                    </span>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1600607687940-4e524cb35a3a?q=80&w=600" alt="Vizualizace">
+                    <span>3D Vizualizace - Bungalov</span>
                 </div>
-            </aside>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?q=80&w=600" alt="Detail stavby">
+                    <span>Realizace technického dozoru</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=600" alt="Vila">
+                    <span>Studie rodinné vily</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=600" alt="Interiér">
+                    <span>Projekt nízkoenergetického domu</span>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?q=80&w=600" alt="Půdorys">
+                    <span>Vzorová projektová dokumentace</span>
+                </div>
+            </div>
+        </section>
 
-        </div>
-    </main>
+        <section id="contact">
+            <h2>Kontakt</h2>
+            <div class="contact-layout">
+                <div class="contact-info">
+                    <strong>Sídlo ateliéru</strong>
+                    <p>Máchova 414<br>339 01 Klatovy</p>
+                    
+                    <strong>Telefon</strong>
+                    <p><a href="tel:+420605775757" style="color:white; text-decoration:none;">+420 605 775 757</a></p>
+                    
+                    <strong>E-mail</strong>
+                    <p><a href="mailto:ponocnypavel@seznam.cz" style="color:var(--color-primary); text-decoration:none;">ponocnypavel@seznam.cz</a></p>
+                </div>
+                <div class="contact-info">
+                    <strong>Navigace</strong>
+                    <p>Najdete mě v klidné části Klatov. Pro osobní schůzku mě prosím kontaktujte předem.</p>
+                    <a href="https://mapy.cz/zakladni?q=Máchova+414%2C+339+01+Klatovy" target="_blank" class="map-btn">Otevřít na Mapy.cz</a>
+                </div>
+            </div>
+        </section>
 
-    <footer>
-        <div class="footer-inner">
-            <div>© [2024] Projekční činnost - Pavel Ponocný</div>
-            <div id="secret">v1.0 secret</div>
-        </div>
-    </footer>
+    </div>
 
+    <script>
+        function showPage(pageId) {
+            // Skrýt všechny sekce
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Deaktivovat všechny linky
+            const links = document.querySelectorAll('nav a');
+            links.forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Zobrazit vybranou sekci po krátké pauze pro efekt
+            setTimeout(() => {
+                document.getElementById(pageId).classList.add('active');
+                document.getElementById('link-' + pageId).classList.add('active');
+            }, 50);
+        }
+    </script>
 </body>
 </html>
