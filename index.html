@@ -5,12 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pavel Ponocný | Projekce rodinných domů</title>
     <style>
+        /* --- Definice Barev pro Světlý a Tmavý režim --- */
         :root {
-            --color-primary: #8EC206; /* Zelená z loga */
-            --color-dark: #1a1a1a;
-            --color-light: #f4f4f4;
+            --color-primary: #8EC206;
+            --color-bg-page: #ffffff;
+            --color-bg-header: rgba(255, 255, 255, 0.95);
+            --color-bg-section: rgba(255, 255, 255, 0.98);
+            --color-text: #1a1a1a;
+            --color-text-dim: #555555;
+            --color-border: rgba(0, 0, 0, 0.1);
+            --color-gallery-text: rgba(255, 255, 255, 0.9);
+            --color-gallery-bg: rgba(0, 0, 0, 0.7);
+            --bg-overlay: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.95));
             --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             --transition-speed: 0.5s;
+        }
+
+        [data-theme="dark"] {
+            --color-bg-page: #1a1a1a;
+            --color-bg-header: rgba(0, 0, 0, 0.85);
+            --color-bg-section: rgba(20, 20, 20, 0.8);
+            --color-text: #ffffff;
+            --color-text-dim: #cccccc;
+            --color-border: rgba(255, 255, 255, 0.1);
+            --color-gallery-text: rgba(255, 255, 255, 0.9);
+            --color-gallery-bg: rgba(0, 0, 0, 0.8);
+            --bg-overlay: linear-gradient(rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.95));
         }
 
         * {
@@ -21,9 +41,10 @@
 
         body {
             font-family: var(--font-main);
-            background-color: var(--color-dark);
-            color: white;
+            background-color: var(--color-bg-page);
+            color: var(--color-text);
             overflow: hidden; /* Zamezení scrollování celé stránky, scrollovat se budou jen vnitřní sekce */
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         /* Pozadí celého webu s výkresy */
@@ -33,12 +54,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                linear-gradient(rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.95)),
-                url('https://images.unsplash.com/photo-1503387762-592dea58ef23?q=80&w=2000');
+            background: var(--bg-overlay), url('https://images.unsplash.com/photo-1503387762-592dea58ef23?q=80&w=2000');
             background-size: cover;
             background-position: center;
             z-index: -1;
+            transition: background 0.4s ease;
         }
 
         /* Navigace */
@@ -47,13 +67,14 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 50px;
-            background: rgba(0,0,0,0.8);
+            background: var(--color-bg-header);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid var(--color-border);
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 100;
+            transition: background 0.4s ease, border 0.4s ease;
         }
 
         .logo-block {
@@ -64,9 +85,10 @@
 
         /* Styl pro nové obrázkové logo */
         .logo-img {
-            height: 50px; /* Nastavte výšku podle potřeby, aby logo v hlavičce vypadalo dobře */
+            height: 50px;
             width: auto;
-            border-radius: 4px; /* Volitelné: mírně zaoblené rohy */
+            border-radius: 4px;
+            transition: opacity 0.3s ease;
         }
 
         .site-title {
@@ -74,6 +96,36 @@
             font-weight: 700;
             letter-spacing: 1px;
             text-transform: uppercase;
+        }
+
+        .nav-and-tools {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        /* Minimalistický přepínač témat */
+        .theme-switch {
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(142, 194, 6, 0.1); /* Jemně zelené pozadí */
+            border: 1px solid var(--color-border);
+            transition: all 0.3s ease;
+        }
+
+        .theme-switch:hover {
+            transform: scale(1.1);
+            border-color: var(--color-primary);
+        }
+
+        .theme-icon {
+            font-size: 1.2rem;
+            user-select: none;
         }
 
         /* Hamburger menu ikona - výchozí skrytá na PC */
@@ -89,7 +141,7 @@
             display: block;
             width: 30px;
             height: 3px;
-            background-color: white;
+            background-color: var(--color-text);
             transition: all 0.3s;
         }
 
@@ -100,7 +152,7 @@
         }
 
         nav a {
-            color: white;
+            color: var(--color-text);
             text-decoration: none;
             font-weight: 500;
             font-size: 0.9rem;
@@ -127,28 +179,23 @@
             position: absolute;
             max-width: 1100px;
             width: 90%;
-            max-height: calc(100vh - 120px); /* Aby se obsah vešel na obrazovku a šlo scrollovat */
-            overflow-y: auto; /* Povolí listování uvnitř sekce, když je moc dlouhá */
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
             opacity: 0;
             transform: translateY(30px);
             visibility: hidden;
             transition: all var(--transition-speed) ease-in-out;
-            padding-bottom: 30px;
-            padding-right: 15px; /* Místo pro posuvník */
+            padding: 30px;
+            padding-right: 15px;
+            background: var(--color-bg-section);
+            border-radius: 8px;
+            border: 1px solid var(--color-border);
         }
 
         /* Vlastní vzhled posuvníku */
-        section::-webkit-scrollbar {
-            width: 6px;
-        }
-        section::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-        }
-        section::-webkit-scrollbar-thumb {
-            background: var(--color-primary);
-            border-radius: 10px;
-        }
+        section::-webkit-scrollbar { width: 6px; }
+        section::-webkit-scrollbar-track { background: var(--color-border); border-radius: 10px; }
+        section::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 10px; }
 
         section.active {
             opacity: 1;
@@ -157,9 +204,9 @@
         }
 
         /* Typografie */
-        h1 { font-size: 3.5rem; margin-bottom: 10px; line-height: 1.1; }
+        h1 { font-size: 3.5rem; margin-bottom: 10px; line-height: 1.1; color: var(--color-text); }
         h2 { font-size: 2.2rem; color: var(--color-primary); margin-bottom: 30px; border-left: 5px solid var(--color-primary); padding-left: 20px; }
-        p { font-size: 1.1rem; line-height: 1.6; color: #ccc; max-width: 700px; }
+        p { font-size: 1.1rem; line-height: 1.6; color: var(--color-text-dim); max-width: 700px; }
 
         /* Služby - mřížka */
         .services-grid {
@@ -170,7 +217,7 @@
         }
 
         .service-card {
-            background: rgba(255,255,255,0.05);
+            background: rgba(128, 128, 128, 0.05);
             padding: 20px;
             border-radius: 4px;
             border-left: 3px solid var(--color-primary);
@@ -178,7 +225,13 @@
         }
 
         .service-card:hover {
-            background: rgba(255,255,255,0.1);
+            background: rgba(128, 128, 128, 0.1);
+        }
+        
+        .service-card strong {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--color-text);
         }
 
         /* Galerie realizací */
@@ -194,6 +247,7 @@
             overflow: hidden;
             border-radius: 4px;
             cursor: pointer;
+            border: 1px solid var(--color-border);
         }
 
         .gallery-item img {
@@ -212,7 +266,8 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: rgba(0,0,0,0.8);
+            background: var(--color-gallery-bg);
+            color: var(--color-gallery-text);
             padding: 8px;
             font-size: 0.8rem;
             text-align: center;
@@ -222,23 +277,31 @@
         .contact-layout {
             display: flex;
             gap: 50px;
-            background: rgba(0,0,0,0.6);
+            background: rgba(128, 128, 128, 0.05);
             padding: 40px;
             border-radius: 8px;
+            border: 1px solid var(--color-border);
         }
 
         .contact-info strong { color: var(--color-primary); display: block; margin-bottom: 5px; text-transform: uppercase; font-size: 0.8rem; }
-        .contact-info p { margin-bottom: 20px; }
+        .contact-info p { margin-bottom: 20px; color: var(--color-text); }
+        .contact-info a { color: var(--color-text); text-decoration: none; }
+        .contact-info a:hover { color: var(--color-primary); }
 
         .map-btn {
             display: inline-block;
             background: var(--color-primary);
-            color: white;
+            color: white !important;
             padding: 12px 25px;
             text-decoration: none;
             font-weight: bold;
             border-radius: 4px;
             margin-top: 10px;
+            transition: background 0.3s;
+        }
+        
+        .map-btn:hover {
+            background: #79a605;
         }
 
         /* Responzivita pro mobilní zařízení */
@@ -247,8 +310,9 @@
             h1 { font-size: 2.2rem; }
             .site-title { font-size: 1.2rem; }
             
-            /* Úprava velikosti loga pro mobil */
             .logo-img { height: 35px; }
+
+            .nav-and-tools { gap: 15px; }
 
             .services-grid, .gallery-grid, .contact-layout { 
                 grid-template-columns: 1fr; 
@@ -270,62 +334,55 @@
                 right: -100%;
                 width: 250px;
                 height: 100vh;
-                background-color: rgba(15, 15, 15, 0.95);
+                background-color: var(--color-bg-header);
                 backdrop-filter: blur(10px);
                 padding-top: 80px;
                 padding-left: 30px;
                 gap: 20px;
                 transition: right 0.3s ease-in-out;
-                border-left: 1px solid rgba(255,255,255,0.1);
+                border-left: 1px solid var(--color-border);
             }
 
-            nav ul.active {
-                right: 0;
-            }
-
-            nav a {
-                font-size: 1.2rem;
-                display: block;
-                padding: 10px 0;
-            }
+            nav ul.active { right: 0; }
+            nav a { font-size: 1.2rem; display: block; padding: 10px 0; }
 
             /* Animace hamburger ikony při otevření */
-            .menu-toggle.active span:nth-child(1) {
-                transform: translateY(8px) rotate(45deg);
-            }
-            .menu-toggle.active span:nth-child(2) {
-                opacity: 0;
-            }
-            .menu-toggle.active span:nth-child(3) {
-                transform: translateY(-8px) rotate(-45deg);
-            }
+            .menu-toggle.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+            .menu-toggle.active span:nth-child(2) { opacity: 0; }
+            .menu-toggle.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
         }
     </style>
 </head>
-<body>
+<body data-theme="light">
 
     <div class="bg-overlay"></div>
 
     <header>
         <div class="logo-block">
-            <img src="nové-logo.png" alt="Logo Pavel Ponocný" class="logo-img">
+            <img src="nové-logo.png" alt="Logo Pavel Ponocný" class="logo-img" id="main-logo">
             <div class="site-title">Pavel Ponocný</div>
         </div>
 
-        <div class="menu-toggle" onclick="toggleMenu()">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+        <div class="nav-and-tools">
+            <nav>
+                <ul id="nav-menu">
+                    <li><a onclick="showPage('home')" id="link-home" class="active">Úvod</a></li>
+                    <li><a onclick="showPage('services')" id="link-services">Služby</a></li>
+                    <li><a onclick="showPage('gallery')" id="link-gallery">Realizace</a></li>
+                    <li><a onclick="showPage('contact')" id="link-contact">Kontakt</a></li>
+                </ul>
+            </nav>
 
-        <nav>
-            <ul id="nav-menu">
-                <li><a onclick="showPage('home')" id="link-home" class="active">Úvod</a></li>
-                <li><a onclick="showPage('services')" id="link-services">Služby</a></li>
-                <li><a onclick="showPage('gallery')" id="link-gallery">Realizace</a></li>
-                <li><a onclick="showPage('contact')" id="link-contact">Kontakt</a></li>
-            </ul>
-        </nav>
+            <div class="theme-switch" onclick="toggleTheme()" title="Změnit režim">
+                <span class="theme-icon" id="theme-icon">🌙</span>
+            </div>
+
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
     </header>
 
     <div class="page-content">
@@ -400,10 +457,10 @@
                     <p>Máchova 414<br>339 01 Klatovy</p>
                     
                     <strong>Telefon</strong>
-                    <p><a href="tel:+420605775757" style="color:white; text-decoration:none;">+420 605 775 757</a></p>
+                    <p><a href="tel:+420605775757">+420 605 775 757</a></p>
                     
                     <strong>E-mail</strong>
-                    <p><a href="mailto:ponocnypavel@seznam.cz" style="color:var(--color-primary); text-decoration:none;">ponocnypavel@seznam.cz</a></p>
+                    <p><a href="mailto:ponocnypavel@seznam.cz" style="color:var(--color-primary);">ponocnypavel@seznam.cz</a></p>
                 </div>
                 <div class="contact-info">
                     <strong>Navigace</strong>
@@ -416,6 +473,25 @@
     </div>
 
     <script>
+        // Funkce pro změnu režimu a loga
+        function toggleTheme() {
+            const body = document.body;
+            const logo = document.getElementById('main-logo');
+            const icon = document.getElementById('theme-icon');
+            
+            if (body.getAttribute('data-theme') === 'light') {
+                // Přepnutí na TMAVÝ
+                body.setAttribute('data-theme', 'dark');
+                logo.src = 'nové-logo_b.png';
+                icon.innerText = '☀️';
+            } else {
+                // Přepnutí na SVĚTLÝ
+                body.setAttribute('data-theme', 'light');
+                logo.src = 'nové-logo.png';
+                icon.innerText = '🌙';
+            }
+        }
+
         // Funkce pro otevření a zavření mobilního menu
         function toggleMenu() {
             document.getElementById('nav-menu').classList.toggle('active');
@@ -424,25 +500,22 @@
 
         // Funkce pro přepínání stránek
         function showPage(pageId) {
-            // Skrýt všechny sekce
             const sections = document.querySelectorAll('section');
             sections.forEach(section => {
                 section.classList.remove('active');
             });
 
-            // Deaktivovat všechny linky
             const links = document.querySelectorAll('nav a');
             links.forEach(link => {
                 link.classList.remove('active');
             });
 
-            // Zobrazit vybranou sekci po krátké pauze pro efekt
             setTimeout(() => {
                 document.getElementById(pageId).classList.add('active');
                 document.getElementById('link-' + pageId).classList.add('active');
             }, 50);
 
-            // Pokud je otevřené mobilní menu, po kliknutí na odkaz se zavře
+            // Zavření mobilního menu po kliknutí na odkaz
             document.getElementById('nav-menu').classList.remove('active');
             document.querySelector('.menu-toggle').classList.remove('active');
         }
