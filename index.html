@@ -1,0 +1,498 @@
+/*
+ * 2007-07-16 by Petr Jirik. all rights reserved.
+ * Modernizováno pro současné standardy.
+ */
+
+/* --- Proměnné pro snadnou úpravu --- */
+:root {
+  --font-main: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --color-primary: #8ec206;
+  --color-text: #1e1e1e;
+  --color-link: #1e1e1e;
+  --color-link-hover: #646464;
+  --color-bg-content: #e6e6e6;
+  --color-blue: #00adef;
+  --max-width: 920px;
+}
+
+/* 1. general rules */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0; 
+  padding: 0;
+  font-family: var(--font-main); 
+  font-size: 16px; 
+  line-height: 1.5;
+  background-color: #fff;
+  color: var(--color-text);
+}
+
+a img {
+  border: 0;
+}
+
+/* 2. layout + links */
+#page {
+  margin: 0 auto; 
+  max-width: var(--max-width);
+  width: 100%;
+  border: 1px solid rgb(219,46,30);
+}
+
+#head {
+  width: 100%; 
+  height: 152px; 
+  background-image: url('img/logo.jpg'); 
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+#body {
+  width: 100%; 
+  padding: 0;
+}
+
+#topmenu {
+  display: flex;
+  align-items: center;
+  padding: 5px; 
+  width: 100%; 
+  font-size: 14px;
+  opacity: 0.9; 
+  margin-top: 125px;
+  border-radius: 15px 15px 0 0;  
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-text);
+  border-bottom: none;
+}
+
+#topmenu div.offset {
+  margin-left: 13px; 
+  padding: 0;
+}
+
+#topmenu div.inner {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+
+#topmenu div.inner a {
+  color: #000; 
+  margin: 0 10px; 
+  padding: 0; 
+  border: 0; 
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+#topmenu div.inner a.active {
+  color: #fff; 
+}
+
+#topmenu div.inner a:hover {
+  color: #fff; 
+}
+
+.separator {}
+
+#bottommenu {
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px 10px 5px 5px; 
+  width: 100%; 
+  font-size: 12px;
+  border-radius: 0 0 15px 15px;  
+  background-color: var(--color-primary);
+  border: 1px solid var(--color-text);
+  border-top: none;
+  opacity: 0.9;
+}
+
+#content {
+  width: 100%; 
+  padding: 15px; 
+  color: #000; 
+  background-color: var(--color-bg-content); 
+  border: 1px solid var(--color-text);
+}
+
+#main_frame {
+  width: 100%; 
+  padding: 5px 20px 10px 20px; 
+  min-height: 420px;
+}
+
+#main_frame div p {
+  padding-left: 10px;
+}
+
+#language {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.text {
+  width: 100%; 
+  color: #000;       
+}   
+
+.button {
+  padding: 6px 12px; 
+  border: 1px solid black; 
+  margin: 5px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.button:hover {
+  background-color: #e0e0e0;
+}
+
+a {
+  text-decoration: none; 
+  font-weight: bold; 
+  color: var(--color-link);
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  color: var(--color-link-hover); 
+  text-decoration: underline;
+}
+
+a:visited {
+  color: var(--color-link);
+}
+
+a:visited:hover {
+  color: var(--color-link-hover); 
+  text-decoration: underline;
+}
+
+a.tip {
+  font-size: 1.2em; 
+  color: #41b7d8;
+}
+
+a.tip:hover {
+  color: #fff;
+}
+
+/* 3. text styling rules */
+p {
+  margin: 0 0 1rem 0; 
+  text-align: justify; 
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  font-family: var(--font-main);
+}
+
+h2 {
+  font-size: 2.5em; 
+  color: #888;
+}
+
+h3 {
+  position: relative; 
+  font-size: 1.2em; 
+  padding-left: 20px; 
+  background-image: url('img/bullet.gif'); 
+  background-repeat: no-repeat; 
+  color: rgb(240,240,240); 
+  background-position: left center; 
+  margin: 10px 0 15px 0;
+}
+
+h4 {
+  font-size: 1.1em; 
+  margin: 0; 
+  padding: 0; 
+  font-weight: normal;
+}
+
+li {
+  line-height: 1.5; 
+  padding-left: 0; 
+  margin-left: 0;
+}
+
+ul {
+  margin-left: 0; 
+  padding-left: 20px;
+}
+
+/* 4. table rules */
+table td {
+  vertical-align: top;
+}
+
+.blok {
+  text-align: justify;
+}
+
+.no-margin {
+  margin: 0; 
+  padding: 0;
+}
+
+/* Navigační prvky */
+.predchozi, .nasledujici, .strana {
+  display: inline-block;
+  background-color: white;
+  padding: 5px 10px;
+}
+
+.predchozi {
+  float: left; 
+  width: 100px; 
+  text-align: left;
+}
+
+.nasledujici {
+  float: right; 
+  width: 100px; 
+  text-align: right;
+}
+
+.strana {
+  text-align: center;
+  display: block;
+}
+
+#login_form {
+  width: 100%;
+  max-width: 250px; 
+  margin: 0; 
+  border: 1px dotted black; 
+  padding: 10px;
+  border-radius: 4px;
+}
+
+#login_form td {
+  padding: 4px;
+}
+
+#login_form input {
+  border: 1px solid gray; 
+  padding: 5px;
+  width: 100%;
+  border-radius: 4px;
+}
+
+#login_submit_button {
+  width: 100%;
+  cursor: pointer;
+}
+
+#nba_del {
+  background-color: red; 
+  color: white; 
+  text-align: center; 
+  border-top: 1px solid white; 
+  padding: 5px;
+}
+
+#nba_del a:hover {
+  text-decoration: none;
+}
+
+#navigace {
+  width: 100%; 
+  min-height: 30px; 
+  background-color: var(--color-blue);
+  display: flex;
+  align-items: center;
+}
+
+#navigace td {
+  width: 50%; 
+  padding: 5px 10px;
+}
+
+#navigace a {
+  color: #555;
+}
+
+.left {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
+}
+
+.url_back {
+  display: block; 
+  margin: 10px 0;
+}
+
+.hidden {
+  display: none;
+}
+
+/* GALERIE NAHLEDY */
+.galerie_vypis {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.galerie_vypis a {
+  color: #000;
+}
+
+.galerie_vypis a:visited,
+.galerie_vypis a:hover {
+  color: var(--color-link-hover); 
+}
+
+.galerie_vypis a:hover {
+  text-decoration: none;
+}
+
+.galerie_vypis td {
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.galerie_img {
+  color: #000;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.galerie_img:visited {
+  color: white;
+}
+
+.galerie_img img {
+  margin: 5px 0;
+  border: 1px solid #000;
+  max-width: 100%;
+  height: auto;
+  transition: border-color 0.2s;
+}
+
+.galerie_img:hover img {
+  border: 1px solid gray;
+}
+
+.galerie_nahledy {
+  max-width: 835px;
+  width: 100%;
+  text-align: center;
+  padding: 0;
+  margin: 0 auto;
+}
+
+#nazev_galerie {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 15px;
+}
+
+.galerie_nahledy td {
+  vertical-align: bottom;
+  text-align: center;
+  padding: 5px;
+}
+
+.galerie_nahledy img {
+  margin-top: 20px;
+  max-width: 100%;
+  height: auto;
+}
+
+.galerie_nahled_obrazku {
+  padding: 0 2px;
+  background-image: url('../images/perfsmall.gif');
+  background-repeat: repeat-x;
+}
+
+.snimek_efekt img {
+  border: 1px solid #000;
+  transition: filter 0.3s, border-color 0.3s;
+}
+
+.snimek_efekt:hover img {
+  border: 1px solid #ccc;
+  filter: grayscale(100%);
+}
+
+.snimek_efekt p {
+  color: black;
+  position: relative;
+  font-weight: bold;
+  margin-bottom: 40px;
+  filter: drop-shadow(0px 2px 4px rgba(255,255,255, 0.8));
+}
+
+.navigace {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.navigace2 {
+  text-align: center;
+  font-size: 14px;
+}
+
+.navigace2 a {
+  padding: 4px;
+  color: #000;
+}
+
+.navigace2 a:hover {
+  color: red;
+}
+
+.navigace td {
+  height: 40px;
+}
+
+.navigace a, .navigace a:visited {
+  color: #000;
+}
+
+.navigace a:hover {
+  color: red;
+}
+
+.navigace_left, .navigace_right {
+  background-color: black;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.navigace_left a, .navigace_right a {
+  color: white !important;
+}
+
+.navigace_left:hover, .navigace_right:hover {
+  background-color: red;
+}
+
+.delete {}
+
+#secret {
+  font-size: 10px;
+  color: #ccc;
+}
