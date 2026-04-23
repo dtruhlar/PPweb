@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pavel Ponocný | Projekce rodinných domů</title>
+    <title>Pavel Ponocný | Projekční činnost ve výstavbě</title>
     <style>
         /* --- Definice Barev pro Světlý a Tmavý režim --- */
         :root {
@@ -13,7 +13,7 @@
             --color-bg-section: rgba(255, 255, 255, 0.98);
             --color-text: #1a1a1a;
             --color-text-dim: #555555;
-            --color-border: rgba(0, 0, 0, 0.1);
+            --color-border: rgba(0, 0, 0, 0.2);
             --color-gallery-text: rgba(255, 255, 255, 0.9);
             --color-gallery-bg: rgba(0, 0, 0, 0.7);
             --bg-overlay: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.95));
@@ -27,7 +27,7 @@
             --color-bg-section: rgba(20, 20, 20, 0.8);
             --color-text: #ffffff;
             --color-text-dim: #cccccc;
-            --color-border: rgba(255, 255, 255, 0.1);
+            --color-border: rgba(255, 255, 255, 0.2);
             --color-gallery-text: rgba(255, 255, 255, 0.9);
             --color-gallery-bg: rgba(0, 0, 0, 0.8);
             --bg-overlay: linear-gradient(rgba(26, 26, 26, 0.85), rgba(26, 26, 26, 0.95));
@@ -83,7 +83,7 @@
             gap: 15px;
         }
 
-        /* Styl pro nové obrázkové logo */
+        /* Styl pro obrázkové logo */
         .logo-img {
             height: 50px;
             width: auto;
@@ -104,28 +104,56 @@
             gap: 30px;
         }
 
-        /* Minimalistický přepínač témat */
-        .theme-switch {
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
+        /* Minimalistický posuvník pro téma (Switch) */
+        .theme-switch-wrapper {
             display: flex;
             align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: rgba(142, 194, 6, 0.1); /* Jemně zelené pozadí */
-            border: 1px solid var(--color-border);
-            transition: all 0.3s ease;
         }
 
-        .theme-switch:hover {
-            transform: scale(1.1);
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+            margin: 0;
+        }
+
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: transparent;
+            border: 1px solid var(--color-border);
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 3px;
+            bottom: 3px;
+            background-color: var(--color-text-dim);
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: rgba(142, 194, 6, 0.15); /* Jemná zelená výplň v tmavém režimu */
             border-color: var(--color-primary);
         }
 
-        .theme-icon {
-            font-size: 1.2rem;
-            user-select: none;
+        input:checked + .slider:before {
+            transform: translateX(20px);
+            background-color: var(--color-primary);
         }
 
         /* Hamburger menu ikona - výchozí skrytá na PC */
@@ -192,7 +220,7 @@
             border: 1px solid var(--color-border);
         }
 
-        /* Vlastní vzhled posuvníku */
+        /* Vlastní vzhled posuvníku pro sekce */
         section::-webkit-scrollbar { width: 6px; }
         section::-webkit-scrollbar-track { background: var(--color-border); border-radius: 10px; }
         section::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 10px; }
@@ -373,8 +401,11 @@
                 </ul>
             </nav>
 
-            <div class="theme-switch" onclick="toggleTheme()" title="Změnit režim">
-                <span class="theme-icon" id="theme-icon">🌙</span>
+            <div class="theme-switch-wrapper" title="Změnit režim">
+                <label class="theme-switch">
+                    <input type="checkbox" id="theme-checkbox" onchange="toggleTheme()">
+                    <span class="slider"></span>
+                </label>
             </div>
 
             <div class="menu-toggle" onclick="toggleMenu()">
@@ -389,7 +420,8 @@
         
         <section id="home" class="active">
             <h1>Individuální projekty<br>rodinných domů</h1>
-            <p>Od první studie přes 3D vizualizaci až po prováděcí projekt. Tvořím domovy, které mají technickou preciznost a moderní tvář.</p>
+            <p>Od první studie přes 3D vizualizaci až po prováděcí projekt.</p>
+            <p>Tvořím domovy, které mají technickou preciznost a moderní tvář.</p>
             <div style="margin-top: 30px;">
                 <svg width="200" height="2" viewBox="0 0 200 2">
                     <line x1="0" y1="1" x2="200" y2="1" stroke="#8EC206" stroke-width="2" />
@@ -473,22 +505,20 @@
     </div>
 
     <script>
-        // Funkce pro změnu režimu a loga
+        // Funkce pro změnu režimu a loga pomocí checkboxu (posuvníku)
         function toggleTheme() {
             const body = document.body;
             const logo = document.getElementById('main-logo');
-            const icon = document.getElementById('theme-icon');
+            const checkbox = document.getElementById('theme-checkbox');
             
-            if (body.getAttribute('data-theme') === 'light') {
-                // Přepnutí na TMAVÝ
+            if (checkbox.checked) {
+                // Checkbox je zaškrtnutý -> TMAVÝ režim
                 body.setAttribute('data-theme', 'dark');
                 logo.src = 'nové-logo_b.png';
-                icon.innerText = '☀️';
             } else {
-                // Přepnutí na SVĚTLÝ
+                // Checkbox není zaškrtnutý -> SVĚTLÝ režim
                 body.setAttribute('data-theme', 'light');
                 logo.src = 'nové-logo.png';
-                icon.innerText = '🌙';
             }
         }
 
